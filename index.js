@@ -104,7 +104,8 @@ var limitCamera = function() {
 
 
 function createScene(canvas) {
-  //Cesium.Camera.DEFAULT_VIEW_RECTANGLE = extent4326;
+  Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
+  Cesium.Camera.DEFAULT_VIEW_RECTANGLE = Cesium.Rectangle.fromDegrees(7.98108, 46.81280, 8.19859, 46.94344);
 
   var scene = new Cesium.Scene({canvas : canvas});
   /*
