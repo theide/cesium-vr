@@ -22,7 +22,22 @@ var ellipsoid = Cesium.Ellipsoid.clone(Cesium.Ellipsoid.WGS84);
 var imageryUrl = 'lib/cesium/Source/Assets/Textures/';
 
 function createImageryProvider() {
-  if (lofi) {
+  if (false) {
+     return new Cesium.UrlTemplateImageryProvider({
+       url: '//wmts{s}.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-karte-farbe.3d/default/current/4326/{z}/{y}/{x}.jpeg',
+       subdomains: ['5', '6', '7', '8', '9'],
+       minimumRetrievingLevel: 8,
+       maximumRetrievingLevel: undefined,
+       maximumLevel: 17,
+       hasAlphaChannel: false,
+       tilingScheme: new Cesium.GeographicTilingScheme(),
+       availableLevels: [8, 11, 14, 16, 17],
+       metadataUrl: '//3d.geo.admin.ch/1.0.0/ch.swisstopo.terrain.3d/default/20160115/4326/',
+       rectangle: Cesium.Rectangle.fromDegrees(5.013926957923385, 45.35600133779394, 11.477436312994008, 48.27502358353741),
+       tileHeight: 256,
+       tileWidth: 256,
+     });
+  } else if (lofi) {
     return new Cesium.TileMapServiceImageryProvider({
       url : imageryUrl + 'NaturalEarthII'
     });
@@ -41,13 +56,76 @@ function createTerrainProvider() {
   } else {
     return new Cesium.CesiumTerrainProvider({
       url : '//assets.agi.com/stk-terrain/v1/tilesets/world/tiles'
+      //url: 'https://3d.geo.admin.ch/1.0.0/ch.swisstopo.terrain.3d/default/20160115/4326',
+      //availableLevels: [8, 11, 14, 16, 17],
+      //rectangle: Cesium.Rectangle.fromDegrees(5.013926957923385, 45.35600133779394, 11.477436312994008, 48.27502358353741)
     });
   }
 }
 
-function createScene(canvas) {
-  var scene = new Cesium.Scene({canvas : canvas});
+/*
+var containsXY = function(extent, x, y) {
+  return extent[0] <= x && x <= extent[2] && extent[1] <= y && y <= extent[3];
+};
 
+var extent4326 = [0.08750953387026625, 0.791611558883457, 0.20031905334970387, 0.8425581080106397];
+
+var limitCamera = function() {
+  var pos = this.camera.positionCartographic.clone();
+  var inside = containsXY(extent4326, pos.longitude, pos.latitude);
+  if (!inside) {
+    // add a padding based on the camera height
+    var maxHeight = this.screenSpaceCameraController.maximumZoomDistance;
+    var padding = pos.height * 0.05 / maxHeight;
+
+//    pos.longitude = Math.max(extent4326[0] - padding, pos.longitude);
+//    pos.latitude = Math.max(extent4326[1] - padding, pos.latitude);
+//    pos.longitude = Math.min(extent4326[2] + padding, pos.longitude);
+//    pos.latitude = Math.min(extent4326[3] + padding, pos.latitude);
+//    console.log(pos);
+    
+    pos.longitude = 0.140325271445135;
+    pos.latitude = 0.7892433874032259;
+    pos.height = 111123.55262920393;
+//    console.log('setview');
+//    this.camera.setView({
+//      destination: Cesium.Ellipsoid.WGS84.cartographicToCartesian(pos),
+//      orientation: {
+//        heading: 6.278163281553705, //this.camera.heading,
+//        pitch: 0.7162527995122328 //this.camera.pitch
+//      }
+//    });
+  }
+  // Set the minimumZoomDistance according to the camera height
+  var minimumZoomDistance = pos.height > 1800 ? 400 : 200;
+  this.screenSpaceCameraController.minimumZoomDistance = minimumZoomDistance;
+};
+*/
+
+
+function createScene(canvas) {
+  //Cesium.Camera.DEFAULT_VIEW_RECTANGLE = extent4326;
+
+  var scene = new Cesium.Scene({canvas : canvas});
+  /*
+  var sscc = scene.screenSpaceCameraController;
+  sscc.inertiaSpin = 0;
+  sscc.inertiaTranslate = 0;
+  sscc.inertiaZoom = 0;
+
+  sscc.tiltEventTypes.push({
+    'eventType': Cesium.CameraEventType.LEFT_DRAG,
+    'modifier': Cesium.KeyboardEventModifier.SHIFT
+  });
+
+  sscc.tiltEventTypes.push({
+    'eventType': Cesium.CameraEventType.LEFT_DRAG,
+    'modifier': Cesium.KeyboardEventModifier.ALT
+  });
+
+  sscc.enableLook = false;
+  scene.camera.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
+*/
   // Clone the frustum properties into our patched frustum object...
   var patchedFrustum = scene.camera.frustum.clone(new PerspectiveFrustumPatch());
   // Patch the camera frustum prototype...
@@ -56,10 +134,17 @@ function createScene(canvas) {
   var primitives = scene.primitives;
 
   var cb = new Cesium.Globe(ellipsoid);
+  scene.globe = cb;
+//  cb.baseColor = Cesium.Color.WHITE;
+//  cb.depthTestAgainstTerrain = true;
   cb.imageryLayers.addImageryProvider(createImageryProvider());
   cb.terrainProvider = createTerrainProvider();
 
-  scene.globe = cb;
+
+//  scene.screenSpaceCameraController.maximumZoomDistance = 500000;
+//  scene.postRender.addEventListener(limitCamera, scene);
+
+
 
   // Prevent right-click from opening a context menu.
   canvas.oncontextmenu = function() {
