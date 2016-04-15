@@ -88,6 +88,9 @@ var CesiumVR = (function() {
       if (!that.hmdDevice) {
         // No HMD detected.
         that.errorHandler("No HMD detected");
+        if (typeof callback !== 'undefined') {
+          callback();
+        }
         return;
       }
 
@@ -167,6 +170,9 @@ var CesiumVR = (function() {
    * @return {Cesium.Quaternion}
    */
   CesiumVR.prototype.getRotation = function() {
+    if (!this.sensorDevices) {
+      return toQuat(null);
+    }
     return toQuat(this.sensorDevice.getState().orientation);
   };
 

@@ -1,7 +1,7 @@
 "use strict";
 
 var lofi = false;
-var vrEnabled = false;
+var vrEnabled = true;
 
 var canvasL = document.createElement('canvas');
 canvasL.className = "fullSize";
@@ -40,7 +40,7 @@ function createTerrainProvider() {
     return new Cesium.EllipsoidTerrainProvider();
   } else {
     return new Cesium.CesiumTerrainProvider({
-      url : '//cesiumjs.org/stk-terrain/tilesets/world/tiles'
+      url : '//assets.agi.com/stk-terrain/v1/tilesets/world/tiles'
     });
   }
 }
