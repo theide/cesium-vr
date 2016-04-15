@@ -22,7 +22,7 @@ var ellipsoid = Cesium.Ellipsoid.clone(Cesium.Ellipsoid.WGS84);
 var imageryUrl = 'lib/cesium/Source/Assets/Textures/';
 
 function createImageryProvider() {
-  if (false) {
+  if (true) {
      return new Cesium.UrlTemplateImageryProvider({
        url: '//wmts{s}.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-karte-farbe.3d/default/current/4326/{z}/{y}/{x}.jpeg',
        subdomains: ['5', '6', '7', '8', '9'],
