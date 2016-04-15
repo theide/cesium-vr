@@ -24,7 +24,8 @@ var imageryUrl = 'lib/cesium/Source/Assets/Textures/';
 function createImageryProvider() {
   if (true) {
      return new Cesium.UrlTemplateImageryProvider({
-       url: '//wmts{s}.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-karte-farbe.3d/default/current/4326/{z}/{y}/{x}.jpeg',
+       url: '//wmts{s}.geo.admin.ch/1.0.0/ch.swisstopo.swissimage-product/default/current/4326/{z}/{y}/{x}.jpeg',
+       //url: '//wmts{s}.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-karte-farbe.3d/default/current/4326/{z}/{y}/{x}.jpeg',
        subdomains: ['5', '6', '7', '8', '9'],
        minimumRetrievingLevel: 8,
        maximumRetrievingLevel: undefined,
