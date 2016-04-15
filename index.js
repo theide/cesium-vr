@@ -55,10 +55,10 @@ function createTerrainProvider() {
     return new Cesium.EllipsoidTerrainProvider();
   } else {
     return new Cesium.CesiumTerrainProvider({
-      url : '//assets.agi.com/stk-terrain/v1/tilesets/world/tiles'
-      //url: 'https://3d.geo.admin.ch/1.0.0/ch.swisstopo.terrain.3d/default/20160115/4326',
-      //availableLevels: [8, 11, 14, 16, 17],
-      //rectangle: Cesium.Rectangle.fromDegrees(5.013926957923385, 45.35600133779394, 11.477436312994008, 48.27502358353741)
+      //url : '//assets.agi.com/stk-terrain/v1/tilesets/world/tiles'
+      url: 'https://3d.geo.admin.ch/1.0.0/ch.swisstopo.terrain.3d/default/20160115/4326',
+      availableLevels: [8, 11, 14, 16, 17],
+      rectangle: Cesium.Rectangle.fromDegrees(5.013926957923385, 45.35600133779394, 11.477436312994008, 48.27502358353741)
     });
   }
 }
