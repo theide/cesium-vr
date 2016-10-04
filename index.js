@@ -23,6 +23,7 @@ var imageryUrl = 'lib/cesium/Source/Assets/Textures/';
 
 function createImageryProvider() {
   if (true) {
+	 Cesium.BingMapsApi.defaultKey = 'AsarFiDvISunWhi137V7l5Bu80baB73npU98oTyjqKOb7NbrkiuBPZfDxgXTrGtQ';
      return new Cesium.BingMapsImageryProvider({
       url : '//dev.virtualearth.net',
       mapStyle : Cesium.BingMapsStyle.AERIAL
