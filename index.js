@@ -23,30 +23,14 @@ var imageryUrl = 'lib/cesium/Source/Assets/Textures/';
 
 function createImageryProvider() {
   if (true) {
-     return new Cesium.UrlTemplateImageryProvider({
-       url: '//wmts{s}.geo.admin.ch/1.0.0/ch.swisstopo.swissimage-product/default/current/4326/{z}/{y}/{x}.jpeg',
-       //url: '//wmts{s}.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-karte-farbe.3d/default/current/4326/{z}/{y}/{x}.jpeg',
-       subdomains: ['5', '6', '7', '8', '9'],
-       minimumRetrievingLevel: 8,
-       maximumRetrievingLevel: undefined,
-       maximumLevel: 17,
-       hasAlphaChannel: false,
-       tilingScheme: new Cesium.GeographicTilingScheme(),
-       availableLevels: [8, 11, 14, 16, 17],
-       metadataUrl: '//3d.geo.admin.ch/1.0.0/ch.swisstopo.terrain.3d/default/20160115/4326/',
-       rectangle: Cesium.Rectangle.fromDegrees(5.013926957923385, 45.35600133779394, 11.477436312994008, 48.27502358353741),
-       tileHeight: 256,
-       tileWidth: 256,
-     });
-  } else if (lofi) {
-    return new Cesium.TileMapServiceImageryProvider({
-      url : imageryUrl + 'NaturalEarthII'
-    });
-  } else {
-    return new Cesium.BingMapsImageryProvider({
+     return new Cesium.BingMapsImageryProvider({
       url : '//dev.virtualearth.net',
       mapStyle : Cesium.BingMapsStyle.AERIAL
     // mapStyle : Cesium.BingMapsStyle.AERIAL_WITH_LABELS
+    });
+  } else if (lofi) {
+    return new Cesium.TileMapServiceImageryProvider({
+      url : imageryUrl + 'NaturalEarthII'
     });
   }
 }
@@ -56,8 +40,7 @@ function createTerrainProvider() {
     return new Cesium.EllipsoidTerrainProvider();
   } else {
     return new Cesium.CesiumTerrainProvider({
-      //url : '//assets.agi.com/stk-terrain/v1/tilesets/world/tiles'
-      url: 'https://3d.geo.admin.ch/1.0.0/ch.swisstopo.terrain.3d/default/20160115/4326',
+      url : '//assets.agi.com/stk-terrain/v1/tilesets/world/tiles'      
       availableLevels: [8, 11, 14, 16, 17],
       rectangle: Cesium.Rectangle.fromDegrees(5.013926957923385, 45.35600133779394, 11.477436312994008, 48.27502358353741)
     });
